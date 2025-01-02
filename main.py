@@ -50,7 +50,8 @@ def organize(request: Request, groceries: str = Form(...)):
             ],
         )
 
-        categorized_list = completion.choices[0].message["content"]
+        categorized_list = completion.choices[0].message.content
+        
     except Exception as e:
         categorized_list = f"Error calling OpenAI: {e}"
 
