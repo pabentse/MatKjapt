@@ -2,3 +2,4 @@ fasthtml
 openai
 jinja2
 pyjwt  # if you end up using JWT; not strictly required for a simple app
+fast_html
