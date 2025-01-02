@@ -41,14 +41,18 @@ def organize(request: Request, groceries: str = Form(...)):
     prompt_text = f"Organize this grocery list into categories:\n{groceries}\n\nFormat it with headings and bullet items."
     #use 4o mini to generate the categories
     completion = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "YOUR-QUERY-HERE"}
-    ]
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt_text},
+        ],
     )
 
-    # 2) Render the same template with the result
+    # 2) Parse the result
+    categorized_list = completion.choices[0].message['content']
+
+
+    # 3) Render the same template with the result
     return templates.TemplateResponse(
         "index.html",
         {
