@@ -2,3 +2,4 @@ openai
 jinja2
 python-fasthtml
 starlette
+fastapi
