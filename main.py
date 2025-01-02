@@ -35,26 +35,25 @@ def home(request: Request):
 
 @app.post("/organize")
 def organize(request: Request, groceries: str = Form(...)):
-    """
-    Receives the grocery list, queries the LLM, 
-    returns a categorized version.
-    """
-    # 1) Call your LLM / OpenAI:
-    prompt_text = f"Organize this grocery list into categories:\n{groceries}\n\nFormat it with headings and bullet items."
-    #use 4o mini to generate the categories
-    completion = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt_text},
-        ],
+    prompt_text = (
+        "Organize this grocery list into categories:\n"
+        f"{groceries}\n\n"
+        "Format it with headings and bullet items."
     )
 
-    # 2) Parse the result
-    categorized_list = completion.choices[0].message['content']
+    try:
+        completion = client.chat.completions.create(
+            model="gpt-4o-mini",  # or "gpt-3.5-turbo", if "4o-mini" doesn’t exist
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt_text},
+            ],
+        )
 
+        categorized_list = completion.choices[0].message["content"]
+    except Exception as e:
+        categorized_list = f"Error calling OpenAI: {e}"
 
-    # 3) Render the same template with the result
     return templates.TemplateResponse(
         "index.html",
         {
@@ -63,5 +62,4 @@ def organize(request: Request, groceries: str = Form(...)):
         }
     )
 
-# -- MAIN --
 serve()
