@@ -62,3 +62,6 @@ def organize(request: Request, groceries: str = Form(...)):
             "result": categorized_list,
         }
     )
+
+# -- MAIN --
+serve()
