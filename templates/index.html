@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grocery Organizer</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Organize Your Groceries</h1>
+    <form action="/organize" method="post">
+        <label for="groceries">Paste your groceries here (one item per line):</label><br>
+        <textarea id="groceries" name="groceries" rows="8" cols="50"></textarea><br><br>
+        <button type="submit">Organize!</button>
+    </form>
+    {% if result %}
+        <h2>Your Organized List</h2>
+        <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+</html>
